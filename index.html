@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta property="og:title" content="Рахат-Жазира үйлену тойға шақыру!">
+<meta property="og:description" content="11.10.2026">
+<meta property="og:image" content="https://raw.githubusercontent.com/Invitation-kz/Rakhat-Jazira-11.10.26/main/photo.png">
+<title>Рахат-Жазира үйлену тойға шақыру!</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@100;300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Piazzolla', serif;
+    overflow-x: hidden;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  a {
+    display: block;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('fon.jpg');
+    background-size: cover;
+    background-position: center center;
+    z-index: -1;
+  }
+
+  /* Фотолардың пайда болу анимациясы */
+  .element-animation {
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .element-animation.element-show {
+    opacity: 1;
+  }
+
+ .arrow-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.arrow-container img {
+    width: 100px; /* меняй размер по вкусу */
+    height: auto;
+}
+
+  /* ТАЙМЕР */
+  .timer-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .countdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 20px;
+    padding: 10px 20px;
+  }
+  .countdown-item {
+    text-align: center;
+    display: inline-block;
+    min-width: 40px;
+  }
+  .countdown-item .number {
+    display: block;
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+    font-weight: 300;
+    color: #3c5a1c;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .countdown-item .label {
+    display: block;
+    font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #3c5a1c;
+    margin-top: 4px;
+    font-weight: 300;
+  }
+  .countdown-divider {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 100;
+    color: #3c5a1c;
+    padding-top: 5px;
+    display: inline-block;
+  }
+
+  /* ФОРМА */
+  .form-wrapper {
+    padding: 10px 15px 30px;
+  }
+  .form-container {
+    max-width: 450px;
+    margin: 0 auto;
+  }
+  .form-inner {
+    text-align: center;
+  }
+  .radio-group {
+    text-align: left;
+    margin-bottom: 14px;
+  }
+  .radio-group label {
+    font-weight: 300;
+    margin-left: 4px;
+    color: #3c5a1c;
+    font-size: 1rem;
+  }
+  .radio-group input[type="radio"] {
+    margin-right: 4px;
+    accent-color: #3c5a1c;
+    width: 15px;
+    height: 15px;
+  }
+  .form-inner textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #3c5a1c;
+    border-radius: 0;
+    padding: 8px 4px 4px;
+    font-size: 0.95rem;
+    background: transparent;
+    resize: vertical;
+    min-height: 40px;
+    font-family: inherit;
+    color: #3c5a1c;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-inner textarea:focus {
+    border-bottom-color: #3c5a1c;
+  }
+  .form-inner textarea::placeholder {
+    color: #6f8a53;
+    font-weight: 200;
+  }
+  .btn-submit {
+    background: transparent;
+    color: #3c5a1c;
+    border: 1px solid #3c5a1c;
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    width: 100%;
+    transition: 0.3s;
+    margin-top: 14px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-submit:hover {
+    background: #3c5a1c;
+    color: #ffffff;
+  }
+
+  /* МОДАЛЬНОЕ ОКНО */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  .modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .modal-content {
+    background: #ffffff;
+    padding: 40px 30px 45px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 380px;
+    width: 85%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    border: 1px solid #3c5a1c;
+  }
+  .modal-content img {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+  }
+  .modal-content button {
+    background: #3c5a1c;
+    color: #ffffff;
+    border: 1px solid #3c5a1c;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Piazzolla', serif;
+  }
+  .modal-content button:hover {
+    background: #ffffff;
+    color: #3c5a1c;
+    transform: scale(1.03);
+  }
+  .modal-content button:active {
+    transform: scale(0.97);
+  }
+
+  body.modal-open {
+    overflow: hidden;
+  }
+
+  /* САКУРА / ЛЕПЕСТКИ */
+  .sakura {
+    pointer-events: none;
+    position: fixed;
+  }
+
+  @-webkit-keyframes fall { 0% { opacity: 0.9; top: 0; } 100% { opacity: 0.2; top: 100%; } }
+  @keyframes fall { 0% { opacity: 0.9; top: 0; } 100% { opacity: 0.2; top: 100%; } }
+  @-webkit-keyframes blow-soft-left { 0% { margin-left: 0; } 100% { margin-left: -50%; } }
+  @keyframes blow-soft-left { 0% { margin-left: 0; } 100% { margin-left: -50%; } }
+  @-webkit-keyframes blow-medium-left { 0% { margin-left: 0; } 100% { margin-left: -100%; } }
+  @keyframes blow-medium-left { 0% { margin-left: 0; } 100% { margin-left: -100%; } }
+  @-webkit-keyframes blow-soft-right { 0% { margin-left: 0; } 100% { margin-left: 50%; } }
+  @keyframes blow-soft-right { 0% { margin-left: 0; } 100% { margin-left: 50%; } }
+  @-webkit-keyframes blow-medium-right { 0% { margin-left: 0; } 100% { margin-left: 100%; } }
+  @keyframes blow-medium-right { 0% { margin-left: 0; } 100% { margin-left: 100%; } }
+  @-webkit-keyframes sway-0 { 0% { -webkit-transform: rotate(-5deg); transform: rotate(-5deg); } 40% { -webkit-transform: rotate(28deg); transform: rotate(28deg); } 100% { -webkit-transform: rotate(3deg); transform: rotate(3deg); } }
+  @keyframes sway-0 { 0% { transform: rotate(-5deg); } 40% { transform: rotate(28deg); } 100% { transform: rotate(3deg); } }
+  @-webkit-keyframes sway-1 { 0% { transform: rotate(10deg); } 40% { transform: rotate(43deg); } 100% { transform: rotate(15deg); } }
+  @keyframes sway-1 { 0% { transform: rotate(10deg); } 40% { transform: rotate(43deg); } 100% { transform: rotate(15deg); } }
+  @-webkit-keyframes sway-2 { 0% { transform: rotate(15deg); } 40% { transform: rotate(56deg); } 100% { transform: rotate(22deg); } }
+  @keyframes sway-2 { 0% { transform: rotate(15deg); } 40% { transform: rotate(56deg); } 100% { transform: rotate(22deg); } }
+  @-webkit-keyframes sway-3 { 0% { transform: rotate(25deg); } 40% { transform: rotate(74deg); } 100% { transform: rotate(37deg); } }
+  @keyframes sway-3 { 0% { transform: rotate(25deg); } 40% { transform: rotate(74deg); } 100% { transform: rotate(37deg); } }
+  @-webkit-keyframes sway-4 { 0% { transform: rotate(40deg); } 40% { transform: rotate(68deg); } 100% { transform: rotate(25deg); } }
+  @keyframes sway-4 { 0% { transform: rotate(40deg); } 40% { transform: rotate(68deg); } 100% { transform: rotate(25deg); } }
+  @-webkit-keyframes sway-5 { 0% { transform: rotate(50deg); } 40% { transform: rotate(78deg); } 100% { transform: rotate(40deg); } }
+  @keyframes sway-5 { 0% { transform: rotate(50deg); } 40% { transform: rotate(78deg); } 100% { transform: rotate(40deg); } }
+  @-webkit-keyframes sway-6 { 0% { transform: rotate(65deg); } 40% { transform: rotate(92deg); } 100% { transform: rotate(58deg); } }
+  @keyframes sway-6 { 0% { transform: rotate(65deg); } 40% { transform: rotate(92deg); } 100% { transform: rotate(58deg); } }
+  @-webkit-keyframes sway-7 { 0% { transform: rotate(72deg); } 40% { transform: rotate(118deg); } 100% { transform: rotate(68deg); } }
+  @keyframes sway-7 { 0% { transform: rotate(72deg); } 40% { transform: rotate(118deg); } 100% { transform: rotate(68deg); } }
+  @-webkit-keyframes sway-8 { 0% { transform: rotate(94deg); } 40% { transform: rotate(136deg); } 100% { transform: rotate(82deg); } }
+  @keyframes sway-8 { 0% { transform: rotate(94deg); } 40% { transform: rotate(136deg); } 100% { transform: rotate(82deg); } }
+</style>
+</head>
+<body>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div id="musicModal" class="modal-overlay">
+  <div class="modal-content">
+    <img src="photo.png" alt="приглашение">
+    <button id="playMusicBtn">Шақыртуды ашу</button>
+  </div>
+</div>
+
+<!-- АУДИО -->
+<audio id="backgroundMusic" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+  Ваш браузер не поддерживает воспроизведение музыки.
+</audio>
+
+<!-- ФОТО 1 -->
+<div class="element-animation"><img src="photo1.png" alt="photo1"></div>
+
+<div class="element-animation arrow-container">
+    <img src="arrow.gif" alt="arrow">
+</div>
+
+<!-- ФОТО 3 -->
+<div class="element-animation"><img src="photo2.png" alt="photo2"></div>
+
+<!-- ФОТО 4 -->
+<div class="element-animation"><img src="photo3.png" alt="photo3"></div>
+
+<!-- ФОТО 5 -->
+<div class="element-animation"><img src="photo4.png" alt="photo4"></div>
+
+<!-- ФОТО 5 -->
+<div class="element-animation"><img src="photo5.png" alt="photo5"></div>
+
+<!-- ФОТО 6 -->
+<div class="element-animation"><img src="photo6.png" alt="photo6"></div>
+
+<!-- ТАЙМЕР -->
+<div class="timer-wrapper element-animation">
+  <div class="countdown-container">
+    <div class="countdown-item">
+      <span class="number" id="days">00</span>
+      <span class="label">Күн</span>
+    </div>
+    <span class="countdown-divider">:</span>
+    <div class="countdown-item">
+      <span class="number" id="hours">00</span>
+      <span class="label">Сағат</span>
+    </div>
+    <span class="countdown-divider">:</span>
+    <div class="countdown-item">
+      <span class="number" id="minutes">00</span>
+      <span class="label">Минут</span>
+    </div>
+    <span class="countdown-divider">:</span>
+    <div class="countdown-item">
+      <span class="number" id="seconds">00</span>
+      <span class="label">Секунд</span>
+    </div>
+  </div>
+</div>
+
+<!-- ФОТО 7 (КАРТА) -->
+<div class="element-animation">
+    <img src="photo7.png" alt="photo7">
+</div>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d37400.12508508636!2d62.12188903897775!3d45.83566570421702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41f39d0015474769%3A0x8f6f3ad1dc788ddc!2z0JbQvtC7LdCQ0LzQsNC9!5e0!3m2!1sru!2skz!4v1788707386449!5m2!1sru!2skz" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
+<!-- ФОТО 8 -->
+<div class="element-animation"><img src="photo8.png" alt="photo8"></div>
+
+<!-- ОПРОС -->
+<div class="form-wrapper">
+  <div class="form-container">
+    <form id="form">
+      <div class="form-inner">
+        <div class="radio-group">
+          <p style="font-weight:300; margin-bottom:6px; color:#3c5a1c;">Есіміңізді жазыңыз</p>
+          <textarea required name="message" maxlength="100" id="message" rows="2" placeholder="Есіміңіз"></textarea>
+        </div>
+
+        <div class="radio-group">
+          <p style="font-weight:300; margin-bottom:6px; color:#3c5a1c;">Тойға барасыз ба?</p>
+          <input type="radio" id="q_yes" name="attend" value="Барамын" required>
+          <label for="q_yes">Барамын</label><br>
+          <input type="radio" id="q_no" name="attend" value="Бара алмаймын">
+          <label for="q_no">Бара алмаймын</label>
+        </div>
+
+        <div class="radio-group">
+          <p style="font-weight:300; margin-bottom:6px; color:#3c5a1c;">Неше адам болып келесіздер?</p>
+          <div style="display:flex; align-items:center; gap:14px; justify-content:center;">
+            <button type="button" id="decrease" style="background:none; border:1px solid #3c5a1c; color:#3c5a1c; border-radius:50%; width:34px; height:34px; font-size:1.3rem; cursor:pointer;">−</button>
+            <span id="peopleCount" style="font-size:1.3rem; min-width:24px; text-align:center; color:#3c5a1c;">1</span>
+            <button type="button" id="increase" style="background:none; border:1px solid #3c5a1c; color:#3c5a1c; border-radius:50%; width:34px; height:34px; font-size:1.3rem; cursor:pointer;">+</button>
+          </div>
+          <input type="hidden" name="choice" id="choiceHidden" value="1">
+        </div>
+
+        <button type="submit" class="btn-submit">Жіберу</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ФОТО 9 (INSTAGRAM) -->
+<div class="element-animation">
+  <a href="https://www.instagram.com/toiga_shaqyrtugo/" target="_blank">
+    <img src="photo9.png" alt="photo9">
+  </a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('musicModal');
+    const playBtn = document.getElementById('playMusicBtn');
+    const audio = document.getElementById('backgroundMusic');
+
+    function openInvitation() {
+      audio.play().catch(function (err) {
+        console.warn('Не удалось запустить музыку:', err);
+      });
+
+      modal.classList.add('hidden');
+      setTimeout(function () {
+        modal.style.display = 'none';
+      }, 500);
+
+      document.body.classList.remove('modal-open');
+
+      document.querySelectorAll('.element-animation').forEach(function (el) {
+        el.classList.add('element-show');
+      });
+    }
+
+    playBtn.addEventListener('click', openInvitation);
+
+    // Фотолардың бірте-бірте пайда болуы
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('element-show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.element-animation').forEach(function (el) {
+      observer.observe(el);
+    });
+
+    // ТАЙМЕР
+    function updateCountdown() {
+      const endDate = new Date("October 11, 2026 19:00:00").getTime();
+      const now = Date.now();
+      const distance = endDate - now;
+
+      if (distance < 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, '0');
+      document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // СЧЁТЧИК КОЛИЧЕСТВА
+    let count = 1;
+    const peopleCountEl = document.getElementById('peopleCount');
+    const choiceHiddenEl = document.getElementById('choiceHidden');
+    document.getElementById('decrease').addEventListener('click', function () {
+      if (count > 1) {
+        count--;
+        peopleCountEl.textContent = count;
+        choiceHiddenEl.value = count;
+      }
+    });
+    document.getElementById('increase').addEventListener('click', function () {
+      count++;
+      peopleCountEl.textContent = count;
+      choiceHiddenEl.value = count;
+    });
+
+    // ФОРМА
+    const URL_APP = "https://script.google.com/macros/s/AKfycbzFsAUv0XlBeC8jC6sH7SxcuYD9MtQ22d7frMQSeXuCJgRk_7RQW67z2h5Be_TydvoDiw/exec";
+    const form = document.querySelector("#form");
+
+    form.addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+
+      const message = document.querySelector("[name=message]");
+      const attend = document.querySelector("[name=attend]:checked");
+      const choice = document.querySelector("[name=choice]");
+
+      const details = {
+        name: message.value.trim(),
+        attend: attend ? attend.value : '',
+        choice: choice ? choice.value : '',
+      };
+
+      let formBody = [];
+      for (const property in details) {
+        formBody.push(encodeURIComponent(property) + "=" + encodeURIComponent(details[property]));
+      }
+      formBody = formBody.join("&");
+
+      fetch(URL_APP, {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       mode: "no-cors", // или "cors", если настроен CORS
+       body: JSON.stringify(details)
+      });
+
+      if (attend) attend.checked = false;
+      message.value = '';
+      count = 1;
+      peopleCountEl.textContent = count;
+      choiceHiddenEl.value = count;
+      alert('Жауабыңызға рахмет!');
+    });
+  });
+</script>
+
+<!-- ЛЕПЕСТКИ (sakura.js) -->
+<script>
+"use strict";
+var Sakura = function Sakura(selector, options) {
+  var _this = this;
+  if (typeof selector === 'undefined') { throw new Error('No selector present. Define an element.'); }
+  this.el = document.querySelector(selector);
+  var defaults = {
+    className: 'sakura',
+    fallSpeed: 1,
+    maxSize: 14,
+    minSize: 10,
+    delay: 300,
+    colors: [{
+      gradientColorStart: 'rgba(60, 90, 28, 0.85)',
+      gradientColorEnd: 'rgba(111, 138, 83, 0.85)',
+      gradientColorDegree: 120
+    }]
+  };
+  var extend = function extend(originalObj, newObj) {
+    Object.keys(originalObj).forEach(function (key) {
+      if (newObj && Object.prototype.hasOwnProperty.call(newObj, key)) {
+        originalObj[key] = newObj[key];
+      }
+    });
+    return originalObj;
+  };
+  this.settings = extend(defaults, options);
+  this.el.style.overflowX = 'hidden';
+
+  function randomArrayElem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+  var prefixes = ['webkit', 'moz', 'MS', 'o', ''];
+  function PrefixedEvent(element, type, callback) {
+    for (var p = 0; p < prefixes.length; p += 1) {
+      var animType = type;
+      if (!prefixes[p]) { animType = type.toLowerCase(); }
+      element.addEventListener(prefixes[p] + animType, callback, false);
+    }
+  }
+
+  function elementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return rect.top >= 0 && rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+  }
+
+  this.createPetal = function () {
+    if (_this.el.dataset.sakuraAnimId) {
+      setTimeout(function () { window.requestAnimationFrame(_this.createPetal); }, _this.settings.delay);
+    }
+    var animationNames = {
+      blowAnimations: ['blow-soft-left', 'blow-medium-left', 'blow-soft-right', 'blow-medium-right'],
+      swayAnimations: ['sway-0', 'sway-1', 'sway-2', 'sway-3', 'sway-4', 'sway-5', 'sway-6', 'sway-7', 'sway-8']
+    };
+    var blowAnimation = randomArrayElem(animationNames.blowAnimations);
+    var swayAnimation = randomArrayElem(animationNames.swayAnimations);
+    var fallTime = (document.documentElement.clientHeight * 0.007 + Math.round(Math.random() * 5)) * _this.settings.fallSpeed;
+    var animationsArr = [
+      "fall " + fallTime + "s linear 0s 1",
+      blowAnimation + " " + ((fallTime > 30 ? fallTime : 30) - 20 + randomInt(0, 20)) + "s linear 0s infinite",
+      swayAnimation + " " + randomInt(2, 4) + "s linear 0s infinite"
+    ];
+    var animations = animationsArr.join(', ');
+
+    var petal = document.createElement('div');
+    petal.classList.add(_this.settings.className);
+    var height = randomInt(_this.settings.minSize, _this.settings.maxSize);
+    var width = height - Math.floor(randomInt(0, _this.settings.minSize) / 3);
+    var color = randomArrayElem(_this.settings.colors);
+    petal.style.background = "linear-gradient(" + color.gradientColorDegree + "deg, " + color.gradientColorStart + ", " + color.gradientColorEnd + ")";
+    petal.style.webkitAnimation = animations;
+    petal.style.animation = animations;
+    petal.style.borderRadius = randomInt(_this.settings.maxSize, _this.settings.maxSize + Math.floor(Math.random() * 10)) + "px " + randomInt(1, Math.floor(width / 4)) + "px";
+    petal.style.height = height + "px";
+    petal.style.left = (Math.random() * document.documentElement.clientWidth - 100) + "px";
+    petal.style.marginTop = -(Math.floor(Math.random() * 20) + 15) + "px";
+    petal.style.width = width + "px";
+
+    PrefixedEvent(petal, 'AnimationEnd', function () { if (!elementInViewport(petal)) { petal.remove(); } });
+    PrefixedEvent(petal, 'AnimationIteration', function () { if (!elementInViewport(petal)) { petal.remove(); } });
+
+    _this.el.appendChild(petal);
+  };
+
+  this.el.setAttribute('data-sakura-anim-id', window.requestAnimationFrame(this.createPetal));
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+  new Sakura('body', { delay: 50 });
+});
+</script>
+
+</body>
+</html>
